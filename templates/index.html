@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Availability</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #bus_count {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        #email_notification {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 18px;
+            display: none;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bus Availability Status</h1>
+    <p id="last_checked">Checking...</p>
+    <p>Total Buses Available: <span id="bus_count">0</span></p>
+    <p id="email_notification">📩 Email Sent: A bus is available!</p>
+
+    <script>
+        function updateBusStatus() {
+            $.getJSON("/bus_status", function(data) {
+                $("#bus_count").text(data.bus_count);
+                $("#last_checked").text("Last checked: " + data.last_checked);
+
+                if (data.bus_count > 0) {
+                    $("#email_notification").fadeIn().delay(5000).fadeOut(); // Show email notification
+                }
+            });
+        }
+
+        setInterval(updateBusStatus, 5000); // Update every 5 seconds
+        updateBusStatus(); // Initial load
+    </script>
+</body>
+</html>
