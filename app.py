@@ -15,6 +15,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 app = Flask(__name__)
+app.config['DEBUG'] = False  # Disable debug mode
+app.config['ENV'] = 'production'  # Set the environment to production
 
 latest_result = {"bus_count": 0, "last_checked": "Not yet checked"}
 last_sent_count = 0  # To track previous bus count and prevent duplicate emails
